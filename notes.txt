@@ -148,4 +148,15 @@ Red squiggles when compiling TypeScript resulting from fucking d.ts being someho
 - solution: never, ever touch any typings (d.ts) file, if squiggles appear close all .ts files, rebuild, reload window. SHOULD help. Fuck me!.
 
 
+GIT
+------------------------------------------------------------------------
+Initialize Git repository via UI
+-create .gitignore file in project root with git exclude globs
+-from bash: git config core.autocrlf false
+   -- this will stop git from playing with end of line stuff (conversions between linux and win)
+-commit vid UI
 
+configure remote repo:
+-create remote public repo: https://github.com/pavcioch/ts_play.git
+-$ git remote add origin https://github.com/pavcioch/ts_play.git
+-$ git push -u origin master
