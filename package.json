@@ -1,0 +1,37 @@
+{
+  "name": "ts_play",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "author": "Pablo",
+  "license": "ISC",  
+  "dependencies": {
+    "angular2": "2.0.0-beta.11",
+    "systemjs": "0.19.24",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.35.0",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.6.4"  
+  },
+  "devDependencies": {
+    "merge2": "^1.0.1",
+    "gulp-typescript": "^2.12.1",      
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.2.0",
+    "concurrently": "^2.0.0",
+    "typescript": "^1.8.9",
+    "typings":"^0.7.9"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "lite": "lite-server",
+    "typings": "typings",
+    "postinstall": "typings install"     
+  }
+
+}
+

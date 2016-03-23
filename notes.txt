@@ -1,0 +1,151 @@
+SPA WITH ANGULARJS & TYPESCRIPT
+
+TYPESCRIPT
+--------------------------------------------------------
+
+-problem: some old tsc version is used in vscode (does not recognize tsconfig.json, some options are missing) 
+-solution:
+1. Remove path to TypeScript lib (.. Program Files (86).. ) from environ variables
+2. Intall globally: npm install -g typescript
+   - this will install typescript and tsc
+done!
+
+Remarks
+vscode ignores local typescript/tsc installations
+
+*VSCode task runner 
+it's recommended to use vscode task runner, defined in /.vscode/tasks.json,
+entry 'args' should contain "p" and path to tsconfig.json. Although tasks.json is in .vscode folder all paths refer to project's root folder, so in order to use  \.vscode\tsonfig2.json
+entry 'watch':true does work!
+there should be following entry in tsconfig.json:
+	"args": ["-project", "./.vscode/tsconfig2.json"]
+By default this line is:
+	"args": ["-project", "tsconfig.json"]
+update .vscode/tasks.json  (commented:  PABLO: tsc as task runner command)
+
+    
+    
+*Gulp task runner (PABLO: gulp as task runner command):    
+//from https://cmatskas.com/setting-up-a-gulp-task-with-visual-studio-code/
+npm install -g gulp  
+npm install gulp-typescript --save  
+npm install merge2 --save
+---- it turns out that gulp is needed both globally and locally:
+npm install --save-dev gulp
+npm install gulp-sass --save-dev
+
+create gulpfile.js, define tasks
+open .vscode/tasks.json and define build tasks using gulp tasks
+
+CONCLUSION:
+use Gulp-based task runner. More flexible, less errors, just fucking works
+
+
+BOOSTRAP SASS
+----------------------------------------------------
+as per : http://www.zingdesign.com/the-sass-and-compass-tutorial-for-absolute-beginners/
+1. check if ruby exists on cmdline: ruby -v,
+2. if not exists install Ruby from http://railsinstaller.org/en
+!previous article abandoned - rails & ruby stays but is not used (I guess)
+next steps as per: http://ryanchristiani.com/getting-started-with-gulp-and-sass/
+1. bower install bootstrap-sass
+
+
+
+
+PACKAGE HISTORY
+----------------------------------------------------------
+npm install -g gulp     
+npm install gulp-typescript  
+npm install merge2
+npm install gulp --save-dev
+npm install del --save-dev
+npm install gulp-sass --save-dev
+bower install bootstrap-sass
+npm install lite-server -g   
+
+ 
+ANGULARJS
+-----------------------------------------------------------
+as per:  https://angular.io/docs/ts/latest/quickstart.html
+1. apply tsconfig.json settings to my gulp 'tscompile:globs' task
+2. add typings.json to project folder
+3. add dependecies and devDependencies to package.json
+   except for
+    "lite-server": "^2.1.0",
+    "typescript": "^1.8.7",
+    "typings":"^0.7.5"
+    
+4. add scripts section to package.json :We execute most npm scripts in the following way: npm run + script-name. Some commands (such as start don't require the run keyword).
+   remove scripts related to 'except for' scripts above
+Here's what these scripts do:
+*npm start - runs the compiler and a server at the same time, both in "watch mode"
+*npm run tsc - runs the TypeScript compiler once
+**npm run tsc:w - runs the TypeScript compiler in watch mode; the process keeps running, awaiting changes to TypeScript files and re-compiling when it sees them
+*npm run lite - runs the lite-server, a light-weight, static file server with excellent support for Angular apps that use routing
+*npm run typings - runs the typings tool
+^npm run postinstall - called by npm automatically after it successfully completes package installation. This script installs the TypeScript definition files defined in typings.json
+5. npm install
+6. !important: the 'postinstall' script is crucial, muest be run, it will created typings folder with referenced *.d.ts files.
+  - in the meantime I deleted node_modules folder and run npm install: to refresh things
+  
+  
+
+ 
+ 
+START WEB SERVER - using lite-server
+----------------------------------------------------------
+as per: https://github.com/johnpapa/lite-server
+1.npm install lite-server -g   (can be intalled globally also)
+2.create bs-config.json with overriden base directory pointing to .wwwroot/pages (and port etc)
+3.to start server run from commandline: lite-server  (this will start server and open browser)
+notes: baseDir in bs-config.json determines paths to css, js etc., also by default index.html in baseDir is default page but we can always type url like: localhost:8000/pages/index.html
+
+PROJECT STRUCTURE
+----------------------------------------------------------
+based on: https://scotch.io/tutorials/angularjs-best-practices-directory-structure
+
+app/            // dev files
+----- definitions/      //d.ts files
+----- shared/   // acts as reusable components or partials of our site
+---------- sidebar/
+--------------- sidebarDirective.js
+--------------- sidebarView.html
+---------- article/
+--------------- articleDirective.js
+--------------- articleView.html
+----- components/   // each component is treated as a mini Angular app
+---------- home/
+--------------- homeController.js
+--------------- homeService.js
+--------------- homeView.html
+---------- blog/
+--------------- blogController.js
+--------------- blogService.js
+--------------- blogView.html
+----- app.module.js
+----- app.routes.js
+wwwroot/        // public stuff
+----- img/      // Images and icons for your app
+----- css/      // All styles and style related files (SCSS or LESS files)
+----- js/       // JavaScript files written for your app that are not for angular
+----- libs/     // Third-party libraries such as jQuery, Moment, Underscore, etc.
+index.html
+
+
+NODE JS HOW-TO
+--------------------------------------------------
+to create package.json from contents of node_modules folder use: npm init.
+npm install : will install packages in local project based on package.json. it's best to delete node_modules folder first (if not contains modules not specified in package.json)
+npm install <package> --save: installs package and saves it to dependencies section in package.json
+nom install <package> --save-dev :  installs package and saves it to devDependencies section in package.json
+
+
+
+VSCODE GOTCHAS
+--------------------------------------------------
+Red squiggles when compiling TypeScript resulting from fucking d.ts being somehow visible to syntax checker
+- solution: never, ever touch any typings (d.ts) file, if squiggles appear close all .ts files, rebuild, reload window. SHOULD help. Fuck me!.
+
+
+
